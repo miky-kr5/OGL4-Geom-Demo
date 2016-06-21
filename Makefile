@@ -1,9 +1,9 @@
 CXX = g++
 TARGET = glsl_prog
-OBJECTS = main.o GLSLProgram.o
+OBJECTS = main.o GLSLProgram.o gui.o ogl.o
 DEPENDS = $(OBJECTS:.o=.d)
 CXXFLAGS = -ansi -pedantic -Wall
-LDLIBS = -l GLEW -l glut -l GLU -l GL
+LDLIBS = -l GLEW -l GLU -l GL -l fltk -l fltk_gl
 
 all: CXXFLAGS += -O2 -D_NDEBUG
 all: $(TARGET)
