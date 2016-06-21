@@ -74,7 +74,7 @@ namespace opengl
   void initialize()
   {
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 		
     mModelMatrix = glm::mat4();
     mViewMatrix = glm::mat4();

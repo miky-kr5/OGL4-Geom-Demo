@@ -16,6 +16,9 @@ public:
 protected:
   virtual void draw();
   virtual int handle(int);
+
+private:
+  bool initialized;
 };
 
 #endif
