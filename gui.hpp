@@ -18,6 +18,7 @@ protected:
   virtual int handle(int);
 
 private:
+  std::string title;
   bool initialized;
 };
 

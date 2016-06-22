@@ -9,6 +9,7 @@ static void redraw_callback(void * arg) {
 }
 
 GlGui::GlGui(int x, int y, int w, int h, const char * l) : Fl_Gl_Window(x, y, w, h, l) {
+  title += l;
   initialized = false;
   Fl::add_timeout(0.016, redraw_callback, this);
   resizable(this);
@@ -18,6 +19,12 @@ void GlGui::draw() {
   if(!valid()) {
     if(!initialized) {
       opengl::initialize();
+
+      title += " :: OpenGL Version ";
+      title += (char*)glGetString(GL_VERSION);
+      title += " :: OpenGL Vendor ";
+      title += (char*)glGetString(GL_VENDOR);
+      label(title.c_str());
       initialized = true;
     }
     opengl::reshape(w(), h());
