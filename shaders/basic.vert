@@ -1,6 +1,6 @@
 #version 400
 
-uniform mat4 mView, mProjection, mModel;
+uniform mat4 mModel;
 uniform float fGeomParam;
 
 layout(location = 0) in vec4 vVertex;
@@ -13,5 +13,5 @@ void main()
 {
 	vColorVs = vColor;
 	vGeomParamVs = fGeomParam;
-	gl_Position = mProjection * mView * mModel * vVertex;
+	gl_Position = mModel * vVertex;
 }
