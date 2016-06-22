@@ -4,6 +4,7 @@
 #define OGL_HPP
 
 #include <string>
+#include <FL/Fl_Widget.H>
 
 namespace opengl
 {
@@ -48,14 +49,9 @@ namespace opengl
   void reshape(int w, int h);
 
   ///
-  /// This function can be used to delete or close instances previously created
+  /// A FLTK callback that changes the parameter of the Geometry Shader.
   ///
-  void terminate();
-
-  ///
-  ///The classical keyboard manager GLUT function, ESC key to exit
-  ///
-  void keyboard(unsigned char key, int x, int y);
+  void geom_callback(Fl_Widget * w, void * data);
 }
 
 #endif

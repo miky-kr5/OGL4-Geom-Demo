@@ -3,6 +3,7 @@
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
 
+in float vGeomParamVs[];
 in vec4 vColorVs[];
 
 out vec4 vVertexColor;
@@ -17,7 +18,7 @@ void main() {
   normal = normalize(normal);
 
   for(int k = 0; k < gl_in.length(); k++) {
-    gl_Position = gl_in[k].gl_Position + (0.25 * normal);
+    gl_Position = gl_in[k].gl_Position + (vGeomParamVs[k] * normal);
     vVertexColor = vColorVs[k];
     EmitVertex();
   }

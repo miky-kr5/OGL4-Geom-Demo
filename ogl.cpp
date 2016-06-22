@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <FL/Fl_Valuator.H>
 
 #include "ogl.hpp"
 #include "GLSLProgram.hpp"
@@ -19,6 +20,7 @@ namespace opengl
   const float NCP = 0.1f;
   const float FCP = 150.0f;
   const float ANGLE = 75.f;
+  float geom_param = 0.0;
 
   //variables
   glm::mat4x4 mProjMatrix, mModelMatrix, mViewMatrix;
@@ -92,6 +94,7 @@ namespace opengl
     m_program.addUniform("mView");
     m_program.addUniform("mProjection");
     m_program.addUniform("mModel");
+    m_program.addUniform("fGeomParam");
     m_program.disable();
 
     //VAO
@@ -127,6 +130,7 @@ namespace opengl
     glUniformMatrix4fv(m_program.getLocation("mView"), 1, GL_FALSE, glm::value_ptr(mViewMatrix));
     glUniformMatrix4fv(m_program.getLocation("mModel"), 1, GL_FALSE, glm::value_ptr(mModelMatrix));
     glUniformMatrix4fv(m_program.getLocation("mProjection"), 1, GL_FALSE, glm::value_ptr(mProjMatrix));
+    glUniform1f(m_program.getLocation("fGeomParam"), geom_param);
     glBindVertexArray(m_iIndexVAO);
     glDrawArrays(GL_TRIANGLES, 0, iNVertices);
     glBindVertexArray(0);
@@ -146,15 +150,7 @@ namespace opengl
     opengl::mProjMatrix = glm::perspective(k, fRatio, opengl::NCP, opengl::FCP);
   }
 
-  void terminate()
-  {
-    std::cout << "the end" << std::endl;
-    exit(0);
-  }
-
-  void keyboard(unsigned char key, int x, int y)
-  {
-    if(key == 27)	//'ESC'
-      opengl::terminate();
+  void geom_callback(Fl_Widget * w, void * data) {
+    geom_param = ((Fl_Valuator *)w)->value();
   }
 }

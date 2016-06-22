@@ -1,7 +1,8 @@
-#include "GLSLProgram.hpp"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+
+#include "GLSLProgram.hpp"
 
 using namespace std;
 

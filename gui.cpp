@@ -8,7 +8,8 @@ static void redraw_callback(void * arg) {
   Fl::repeat_timeout(0.016, redraw_callback, window);
 }
 
-GlGui::GlGui(int x, int y, int w, int h, const char * l) : Fl_Gl_Window(x, y, w, h, l) {
+GlGui::GlGui(Fl_Window * parent, int x, int y, int w, int h, const char * l) : Fl_Gl_Window(x, y, w, h, l) {
+  this->parent = parent;
   title += l;
   initialized = false;
   Fl::add_timeout(0.016, redraw_callback, this);
@@ -20,11 +21,14 @@ void GlGui::draw() {
     if(!initialized) {
       opengl::initialize();
 
-      title += " :: OpenGL Version ";
-      title += (char*)glGetString(GL_VERSION);
-      title += " :: OpenGL Vendor ";
-      title += (char*)glGetString(GL_VENDOR);
-      label(title.c_str());
+      if(parent != NULL) {
+	title += " :: OpenGL Version ";
+	title += (char*)glGetString(GL_VERSION);
+	title += " :: OpenGL Vendor ";
+	title += (char*)glGetString(GL_VENDOR);
+	parent->label(title.c_str());
+      }
+
       initialized = true;
     }
     opengl::reshape(w(), h());
@@ -34,13 +38,5 @@ void GlGui::draw() {
 }
 
 int GlGui::handle(int event) {
-  if(event == FL_KEYBOARD) {
-    if(Fl::event_key() == 27) {
-      opengl::terminate();
-      return 1;
-    }
-  }
-  redraw();
-
   return Fl_Gl_Window::handle(event);
 }
