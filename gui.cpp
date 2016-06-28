@@ -3,16 +3,15 @@
 #include <iostream>
 
 static void redraw_callback(void * arg) {
-  Fl_Gl_Window * window = static_cast<Fl_Gl_Window *>(arg);
+  GlGui * window = static_cast<GlGui *>(arg);
   window->redraw();
-  Fl::repeat_timeout(0.016, redraw_callback, window);
 }
 
 GlGui::GlGui(Fl_Window * parent, int x, int y, int w, int h, const char * l) : Fl_Gl_Window(x, y, w, h, l) {
   this->parent = parent;
   title += l;
   initialized = false;
-  Fl::add_timeout(0.016, redraw_callback, this);
+  Fl::add_idle(redraw_callback, this);
   resizable(this);
 }
 

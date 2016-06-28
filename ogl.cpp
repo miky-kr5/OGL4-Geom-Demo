@@ -124,7 +124,7 @@ namespace opengl
     glClearColor(0.15f, 0.15f, 0.15f, 1.f);	//a grey color
 
     mViewMatrix = glm::translate(glm::mat4(), glm::vec3(0,0,-1.5));	//a little bit 
-    mModelMatrix = glm::rotate(glm::mat4(), m_fAngle, glm::vec3(0,1,0));
+    mModelMatrix = glm::rotate(glm::mat4(), glm::radians(m_fAngle), glm::vec3(0,1,0));
 
     m_program.enable();
     glUniformMatrix4fv(m_program.getLocation("mView"), 1, GL_FALSE, glm::value_ptr(mViewMatrix));
@@ -147,7 +147,7 @@ namespace opengl
     opengl::iHeightWindow = h;
     glViewport(0, 0, w, h);
     float k = 90;
-    opengl::mProjMatrix = glm::perspective(k, fRatio, opengl::NCP, opengl::FCP);
+    opengl::mProjMatrix = glm::perspective(glm::radians(k), fRatio, opengl::NCP, opengl::FCP);
   }
 
   void geom_callback(Fl_Widget * w, void * data) {

@@ -39,11 +39,6 @@ namespace opengl
   void display();
 
   ///
-  /// A simple calling to the display function
-  ///
-  void idle();
-
-  ///
   /// The classical resized function in GLUT, including the perspective matrox construction
   ///
   void reshape(int w, int h);
