@@ -21,6 +21,8 @@ namespace opengl
   const float FCP = 150.0f;
   const float ANGLE = 75.f;
   float geom_param = 0.0;
+  float tess_inner = 1.0;
+  float tess_outer = 1.0;
 
   //variables
   glm::mat4x4 mProjMatrix, mModelMatrix, mViewMatrix;
@@ -134,15 +136,17 @@ namespace opengl
     glUniformMatrix4fv(m_program.getLocation("mModel"), 1, GL_FALSE, glm::value_ptr(mModelMatrix));
     glUniformMatrix4fv(m_program.getLocation("mProjection"), 1, GL_FALSE, glm::value_ptr(mProjMatrix));
     glUniform1f(m_program.getLocation("fGeomParam"), geom_param);
-    glUniform1f(m_program.getLocation("TessLevelInner"), 3.0);
-    glUniform1f(m_program.getLocation("TessLevelOuter"), 3.0);
+    glUniform1f(m_program.getLocation("TessLevelInner"), tess_inner);
+    glUniform1f(m_program.getLocation("TessLevelOuter"), tess_outer);
     glBindVertexArray(m_iIndexVAO);
     glPatchParameteri(GL_PATCH_VERTICES, 3);
     glDrawArrays(GL_PATCHES, 0, iNVertices);
     glBindVertexArray(0);
     m_program.disable();
 
-    if (++m_fAngle > 360.f) m_fAngle -= 360.f;	//for the spinning
+    m_fAngle += 0.5f;
+    if (m_fAngle > 360.0f)
+      m_fAngle -= 360.0f;	//for the spinning
   }
 
   void reshape(int w, int h)
@@ -158,5 +162,13 @@ namespace opengl
 
   void geom_callback(Fl_Widget * w, void * data) {
     geom_param = ((Fl_Valuator *)w)->value();
+  }
+
+  void tess_callback_inner(Fl_Widget * w, void * data) {
+    tess_inner = ((Fl_Valuator *)w)->value();
+  }
+
+  void tess_callback_outer(Fl_Widget * w, void * data) {
+    tess_outer = ((Fl_Valuator *)w)->value(); 
   }
 }

@@ -6,6 +6,7 @@ in vec4 tcPosition[];
 in vec4 tcColor[];
 
 out vec4 teColor;
+out vec3 tePatchDistance;
 
 void main()
 {
@@ -16,6 +17,7 @@ void main()
   vec3 cp0 = gl_TessCoord.x * tcColor[0].xyz;
   vec3 cp1 = gl_TessCoord.y * tcColor[1].xyz;
   vec3 cp2 = gl_TessCoord.z * tcColor[2].xyz;
+  tePatchDistance = gl_TessCoord;
   teColor = vec4(cp0 + cp1 + cp2, 1.0);
   gl_Position = tePosition;
 }

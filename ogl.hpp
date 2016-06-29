@@ -47,6 +47,12 @@ namespace opengl
   /// A FLTK callback that changes the parameter of the Geometry Shader.
   ///
   void geom_callback(Fl_Widget * w, void * data);
+
+  ///
+  /// Two FLTK callbacks that change the parameters of the Tessellation Shaders.
+  ///
+  void tess_callback_inner(Fl_Widget * w, void * data);
+  void tess_callback_outer(Fl_Widget * w, void * data);
 }
 
 #endif
