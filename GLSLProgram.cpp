@@ -11,7 +11,8 @@ CGLSLProgram::CGLSLProgram(void)
   m_vIdShader[VERTEX] = 0;
   m_vIdShader[FRAGMENT] = 0;
   m_vIdShader[GEOMETRY] = 0;
-  m_vIdShader[TESSELATION] = 0;
+  m_vIdShader[TESSELLATION_CONTROL] = 0;
+  m_vIdShader[TESSELLATION_EVALUATION] = 0;
   m_mapVarShader.clear();
   m_mapSubroutines.clear();
 }
@@ -68,7 +69,8 @@ void CGLSLProgram::loadShader(std::string strFileName, SHADERTYPE typeShader)
     case VERTEX : { hShader = glCreateShader(GL_VERTEX_SHADER); break; }
     case FRAGMENT : { hShader = glCreateShader(GL_FRAGMENT_SHADER); break; }
     case GEOMETRY : { hShader = glCreateShader(GL_GEOMETRY_SHADER); break; }
-    case TESSELATION : { hShader = 0; std::cerr<<"not implemented.... yet :-)" << std::endl; }
+    case TESSELLATION_CONTROL : { hShader = glCreateShader(GL_TESS_CONTROL_SHADER); break; }
+    case TESSELLATION_EVALUATION: { hShader = glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
     }
 
   if(loadShaderFile(strFileName, hShader))
@@ -131,10 +133,16 @@ void CGLSLProgram::create()
     glAttachShader(m_uIdProgram, m_vIdShader[FRAGMENT]);
   if(m_vIdShader[GEOMETRY] > 0)
     glAttachShader(m_uIdProgram, m_vIdShader[GEOMETRY]);
+  if(m_vIdShader[TESSELLATION_CONTROL] > 0)
+    glAttachShader(m_uIdProgram, m_vIdShader[TESSELLATION_CONTROL]);
+  if(m_vIdShader[TESSELLATION_EVALUATION] > 0)
+    glAttachShader(m_uIdProgram, m_vIdShader[TESSELLATION_EVALUATION]);
   //delete the shaders
   glDeleteShader(m_vIdShader[VERTEX]);
   glDeleteShader(m_vIdShader[FRAGMENT]);
   glDeleteShader(m_vIdShader[GEOMETRY]);
+  glDeleteShader(m_vIdShader[TESSELLATION_CONTROL]);
+  glDeleteShader(m_vIdShader[TESSELLATION_EVALUATION]);
   checkLinkingErrors();
 }
 
@@ -148,6 +156,10 @@ void CGLSLProgram::create_link()
     glAttachShader(m_uIdProgram, m_vIdShader[FRAGMENT]);
   if(m_vIdShader[GEOMETRY] > 0)
     glAttachShader(m_uIdProgram, m_vIdShader[GEOMETRY]);
+  if(m_vIdShader[TESSELLATION_CONTROL] > 0)
+    glAttachShader(m_uIdProgram, m_vIdShader[TESSELLATION_CONTROL]);
+  if(m_vIdShader[TESSELLATION_EVALUATION] > 0)
+    glAttachShader(m_uIdProgram, m_vIdShader[TESSELLATION_EVALUATION]);
   //link the program
   glLinkProgram(m_uIdProgram);
   //check errors on linking
@@ -156,6 +168,8 @@ void CGLSLProgram::create_link()
   glDeleteShader(m_vIdShader[VERTEX]);
   glDeleteShader(m_vIdShader[FRAGMENT]);
   glDeleteShader(m_vIdShader[GEOMETRY]);
+  glDeleteShader(m_vIdShader[TESSELLATION_CONTROL]);
+  glDeleteShader(m_vIdShader[TESSELLATION_EVALUATION]);
 }
 
 void CGLSLProgram::link()

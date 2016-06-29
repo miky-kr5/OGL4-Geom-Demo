@@ -3,10 +3,11 @@
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
 
+uniform float fGeomParam;
 uniform mat4 mView, mProjection;
+uniform mat4 mModel;
 
-in float vGeomParamVs[];
-in vec4 vColorVs[];
+in vec4 teColor[];
 
 out vec4 vVertexColor;
 
@@ -20,9 +21,9 @@ void main() {
   normal = normalize(normal);
 
   for(int k = 0; k < gl_in.length(); k++) {
-    gl_Position = gl_in[k].gl_Position + (vGeomParamVs[k] * normal);
-    gl_Position = mProjection * mView * gl_Position;
-    vVertexColor = vColorVs[k];
+    gl_Position = gl_in[k].gl_Position + (fGeomParam * normal);
+    gl_Position = mProjection * mView * mModel * gl_Position;
+    vVertexColor = teColor[k];
     EmitVertex();
   }
   EndPrimitive();

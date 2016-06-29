@@ -84,17 +84,20 @@ namespace opengl
     colorcube();
 
     m_program.loadShader("shaders/basic.vert", CGLSLProgram::VERTEX);
+    m_program.loadShader("shaders/basic.tc", CGLSLProgram::TESSELLATION_CONTROL);
+    m_program.loadShader("shaders/basic.te", CGLSLProgram::TESSELLATION_EVALUATION);
     m_program.loadShader("shaders/basic.geom", CGLSLProgram::GEOMETRY);
     m_program.loadShader("shaders/basic.frag", CGLSLProgram::FRAGMENT);
     m_program.create_link();
     m_program.enable();
     m_program.addAttribute("vVertex");
     m_program.addAttribute("vColor");
-    m_program.addAttribute("vNormal");
     m_program.addUniform("mView");
     m_program.addUniform("mProjection");
     m_program.addUniform("mModel");
     m_program.addUniform("fGeomParam");
+    m_program.addUniform("TessLevelInner");
+    m_program.addUniform("TessLevelOuter");
     m_program.disable();
 
     //VAO
@@ -104,10 +107,10 @@ namespace opengl
     GLuint iIdBuffer;
     glGenBuffers(1, &iIdBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, iIdBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vec_points) +sizeof(vec_colors), NULL, GL_STATIC_DRAW );
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec_points) + sizeof(vec_colors), NULL, GL_STATIC_DRAW );
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec_points), vec_points);
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(vec_points), sizeof(vec_colors), vec_colors);
-		
+
     glEnableVertexAttribArray(m_program.getLocation("vVertex"));
     glVertexAttribPointer(m_program.getLocation("vVertex"), 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0)); //Vertex
     glEnableVertexAttribArray(m_program.getLocation("vColor"));
@@ -131,8 +134,11 @@ namespace opengl
     glUniformMatrix4fv(m_program.getLocation("mModel"), 1, GL_FALSE, glm::value_ptr(mModelMatrix));
     glUniformMatrix4fv(m_program.getLocation("mProjection"), 1, GL_FALSE, glm::value_ptr(mProjMatrix));
     glUniform1f(m_program.getLocation("fGeomParam"), geom_param);
+    glUniform1f(m_program.getLocation("TessLevelInner"), 3.0);
+    glUniform1f(m_program.getLocation("TessLevelOuter"), 3.0);
     glBindVertexArray(m_iIndexVAO);
-    glDrawArrays(GL_TRIANGLES, 0, iNVertices);
+    glPatchParameteri(GL_PATCH_VERTICES, 3);
+    glDrawArrays(GL_PATCHES, 0, iNVertices);
     glBindVertexArray(0);
     m_program.disable();
 

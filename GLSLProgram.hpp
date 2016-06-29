@@ -11,10 +11,10 @@
 class CGLSLProgram
 {
  public:
-  enum SHADERTYPE {VERTEX = 0, FRAGMENT, GEOMETRY, TESSELATION};
+  enum SHADERTYPE {VERTEX = 0, FRAGMENT, GEOMETRY, TESSELLATION_CONTROL, TESSELLATION_EVALUATION};
 
   GLuint m_uIdProgram;		//id of the program
-  GLuint m_vIdShader[4];	//ids of the loaded shaders; the 4th is empty always
+  GLuint m_vIdShader[5];	//ids of the loaded shaders; the 4th is empty always
   CGLSLProgram(void);
   ~CGLSLProgram(void);
 
