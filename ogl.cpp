@@ -23,6 +23,7 @@ namespace opengl
   float geom_param = 0.0;
   float tess_inner = 1.0;
   float tess_outer = 1.0;
+  bool  tess = false;
 
   //variables
   glm::mat4x4 mProjMatrix, mModelMatrix, mViewMatrix;
@@ -100,6 +101,7 @@ namespace opengl
     m_program.addUniform("fGeomParam");
     m_program.addUniform("TessLevelInner");
     m_program.addUniform("TessLevelOuter");
+    m_program.addUniform("uNorm");
     m_program.disable();
 
     //VAO
@@ -138,6 +140,7 @@ namespace opengl
     glUniform1f(m_program.getLocation("fGeomParam"), geom_param);
     glUniform1f(m_program.getLocation("TessLevelInner"), tess_inner);
     glUniform1f(m_program.getLocation("TessLevelOuter"), tess_outer);
+    glUniform1i(m_program.getLocation("uNorm"), (tess == true ? 1 : 0));
     glBindVertexArray(m_iIndexVAO);
     glPatchParameteri(GL_PATCH_VERTICES, 3);
     glDrawArrays(GL_PATCHES, 0, iNVertices);
@@ -170,5 +173,9 @@ namespace opengl
 
   void tess_callback_outer(Fl_Widget * w, void * data) {
     tess_outer = ((Fl_Valuator *)w)->value(); 
+  }
+
+  void toggle_tess() {
+    tess = !tess;
   }
 }

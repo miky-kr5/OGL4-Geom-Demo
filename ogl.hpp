@@ -53,6 +53,11 @@ namespace opengl
   ///
   void tess_callback_inner(Fl_Widget * w, void * data);
   void tess_callback_outer(Fl_Widget * w, void * data);
+
+  ///
+  /// Function that toggles normalization on the tessellation shader.
+  ///
+  void toggle_tess();
 }
 
 #endif

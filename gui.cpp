@@ -4,6 +4,7 @@
 
 static void redraw_callback(void * arg) {
   GlGui * window = static_cast<GlGui *>(arg);
+  Fl::focus(window);
   window->redraw();
 }
 
@@ -37,5 +38,25 @@ void GlGui::draw() {
 }
 
 int GlGui::handle(int event) {
-  return Fl_Gl_Window::handle(event);
+  switch(event) {
+  case FL_FOCUS:
+    return 1;
+  case FL_KEYBOARD:
+    switch(Fl::event_key()) {
+    case ' ':
+      opengl::toggle_tess();
+      return 1;
+    case 65470: // F1
+      if(!parent->fullscreen_active()) {
+	parent->fullscreen();
+      } else {
+	parent->fullscreen_off();
+      }
+      return 1;
+    default:
+      return Fl_Gl_Window::handle(event);
+    }
+  default:
+    return Fl_Gl_Window::handle(event);
+  }
 }
