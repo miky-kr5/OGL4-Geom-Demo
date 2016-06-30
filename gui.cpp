@@ -46,6 +46,10 @@ int GlGui::handle(int event) {
     case ' ':
       opengl::toggle_tess();
       return 1;
+    case 'l':
+    case 'L':
+      opengl::toggle_light();
+      return 1;
     case 65470: // F1
       if(!parent->fullscreen_active()) {
 	parent->fullscreen();

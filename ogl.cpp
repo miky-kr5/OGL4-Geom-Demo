@@ -24,6 +24,7 @@ namespace opengl
   float tess_inner = 1.0;
   float tess_outer = 1.0;
   bool  tess = false;
+  bool  light = true;
 
   //variables
   glm::mat4x4 mProjMatrix, mModelMatrix, mViewMatrix;
@@ -102,6 +103,7 @@ namespace opengl
     m_program.addUniform("TessLevelInner");
     m_program.addUniform("TessLevelOuter");
     m_program.addUniform("uNorm");
+    m_program.addUniform("iLightsOn");
     m_program.disable();
 
     //VAO
@@ -141,6 +143,7 @@ namespace opengl
     glUniform1f(m_program.getLocation("TessLevelInner"), tess_inner);
     glUniform1f(m_program.getLocation("TessLevelOuter"), tess_outer);
     glUniform1i(m_program.getLocation("uNorm"), (tess == true ? 1 : 0));
+    glUniform1i(m_program.getLocation("iLightsOn"), (light == true ? 1 : 0));
     glBindVertexArray(m_iIndexVAO);
     glPatchParameteri(GL_PATCH_VERTICES, 3);
     glDrawArrays(GL_PATCHES, 0, iNVertices);
@@ -177,5 +180,9 @@ namespace opengl
 
   void toggle_tess() {
     tess = !tess;
+  }
+
+  void toggle_light() {
+    light = !light;
   }
 }

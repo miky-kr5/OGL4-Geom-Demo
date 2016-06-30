@@ -58,6 +58,11 @@ namespace opengl
   /// Function that toggles normalization on the tessellation shader.
   ///
   void toggle_tess();
+
+  ///
+  /// Function that activates/deactivates the lights in the geometry shader.
+  ///
+  void toggle_light();
 }
 
 #endif
