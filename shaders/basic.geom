@@ -16,8 +16,9 @@ out vec3 gTriDistance;
 out vec4 vVertexColor;
 
 void main() {
+  vec4 ambient = vec4(0.05, 0.05, 0.05, 1.0);
   vec4 lightDir = normalize(vec4(1.0, 1.0, 0.5, 1.0));
-  vec4 bLightColor = vec4(vec3(0.2), 1.0);
+  vec4 bLightColor = vec4(vec3(0.3), 1.0);
   float NdotL, NdotL2;
   vec4 bLight;
 
@@ -41,21 +42,21 @@ void main() {
 
   gl_Position = gl_in[0].gl_Position + (fGeomParam * normal);
   gl_Position = mProjection * mView * mModel * gl_Position;
-  vVertexColor = (NdotL * teColor[0]) + (bLight * teColor[0]);
+  vVertexColor = (NdotL * teColor[0]) + (bLight * teColor[0]) + ambient;
   gPatchDistance = tePatchDistance[0];
   gTriDistance = vec3(1, 0, 0);
   EmitVertex();
 
   gl_Position = gl_in[1].gl_Position + (fGeomParam * normal);
   gl_Position = mProjection * mView * mModel * gl_Position;
-  vVertexColor = (NdotL * teColor[1]) + (bLight * teColor[0]);
+  vVertexColor = (NdotL * teColor[1]) + (bLight * teColor[0]) + ambient;
   gPatchDistance = tePatchDistance[1];
   gTriDistance = vec3(0, 1, 0);
   EmitVertex();
 
   gl_Position = gl_in[2].gl_Position + (fGeomParam * normal);
   gl_Position = mProjection * mView * mModel * gl_Position;
-  vVertexColor = (NdotL * teColor[2]) + (bLight * teColor[0]);
+  vVertexColor = (NdotL * teColor[2]) + (bLight * teColor[0]) + ambient;
   gPatchDistance = tePatchDistance[2];
   gTriDistance = vec3(0, 0, 1);
   EmitVertex();
