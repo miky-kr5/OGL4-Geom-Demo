@@ -1,6 +1,8 @@
-#include "gui.hpp"
-
 #include <iostream>
+#include <sstream>
+#include <cmath>
+
+#include "gui.hpp"
 
 static void redraw_callback(void * arg) {
   GlGui * window = static_cast<GlGui *>(arg);
@@ -17,22 +19,24 @@ GlGui::GlGui(Fl_Window * parent, int x, int y, int w, int h, const char * l) : F
 }
 
 void GlGui::draw() {
+  std::ostringstream oss;
+
   if(!valid()) {
     if(!initialized) {
       opengl::initialize();
-
-      if(parent != NULL) {
-	title += " :: OpenGL Version ";
-	title += (char*)glGetString(GL_VERSION);
-	title += " :: OpenGL Vendor ";
-	title += (char*)glGetString(GL_VENDOR);
-	parent->label(title.c_str());
-      }
-
       initialized = true;
     }
     opengl::reshape(w(), h());
   }
+
+  oss << title << " :: OpenGL " << glGetString(GL_VERSION) << " :: " << glGetString(GL_VENDOR) <<
+    " :: TOL " << ceil(opengl::tess_outer) << " :: TIL " << ceil(opengl::tess_inner) <<
+    " :: NOR " << opengl::geom_param;
+
+  if(parent != NULL)
+    parent->label(oss.str().c_str());
+  else
+    label(oss.str().c_str());
 
   opengl::display();
 }

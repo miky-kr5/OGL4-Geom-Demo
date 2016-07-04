@@ -12,6 +12,9 @@ namespace opengl
   extern const std::string sWindowTitle; //name of the window
   extern unsigned int iWidthWindow;
   extern unsigned int iHeightWindow;     //width & height of the viewport
+  extern float geom_param;
+  extern float tess_inner;
+  extern float tess_outer;
   
   ///
   /// A function to create two triangles based on the quad definition
