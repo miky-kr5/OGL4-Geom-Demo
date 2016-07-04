@@ -4,7 +4,7 @@ layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
 
 uniform float fGeomParam;
-uniform int iLightsOn;
+uniform bool iLightsOn;
 uniform mat4 mView, mProjection;
 uniform mat4 mModel;
 
@@ -31,7 +31,7 @@ void main() {
   normal = normalize(normal);
   vec4 mvNormal = mView * mModel * normal;
 
-  if(iLightsOn != 0) {
+  if(iLightsOn) {
     NdotL = max(dot(mvNormal, lightDir), 0.0);
     NdotL2 = max(dot(mvNormal, -lightDir), 0.0);
     bLight = bLightColor * NdotL2;

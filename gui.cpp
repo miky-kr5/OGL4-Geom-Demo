@@ -54,6 +54,10 @@ int GlGui::handle(int event) {
     case 'L':
       opengl::toggle_light();
       return 1;
+    case 'w':
+    case 'W':
+      opengl::toggle_lines();
+      return 1;
     case 65470: // F1
       if(!parent->fullscreen_active()) {
 	parent->fullscreen();

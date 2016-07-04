@@ -3,6 +3,7 @@
 #include "gui.hpp"
 
 #define ROLLER_HEIGHT 25
+#define MAX_TESS_LEVEL 64
 
 int main(int argc, char** argv)
 {
@@ -18,14 +19,14 @@ int main(int argc, char** argv)
   Fl_Roller * roller_tess_1 = new Fl_Roller(0, opengl::iHeightWindow + ROLLER_HEIGHT, opengl::iWidthWindow, ROLLER_HEIGHT, NULL);
   roller_tess_1->type(FL_HORIZONTAL);
   roller_tess_1->minimum(1.0);
-  roller_tess_1->maximum(20.0);
+  roller_tess_1->maximum(MAX_TESS_LEVEL);
   roller_tess_1->step(0.010);
   roller_tess_1->value(1.0);
   roller_tess_1->callback(opengl::tess_callback_inner, NULL);
   Fl_Roller * roller_tess_2 = new Fl_Roller(0, opengl::iHeightWindow + (ROLLER_HEIGHT * 2), opengl::iWidthWindow, ROLLER_HEIGHT, NULL);
   roller_tess_2->type(FL_HORIZONTAL);
-  roller_tess_2->minimum(1.0);
-  roller_tess_2->maximum(20.0);
+  roller_tess_2->minimum(0.0);
+  roller_tess_2->maximum(MAX_TESS_LEVEL);
   roller_tess_2->step(0.010);
   roller_tess_2->value(1.0);
   roller_tess_2->callback(opengl::tess_callback_outer, NULL);

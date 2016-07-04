@@ -25,6 +25,7 @@ namespace opengl
   float tess_outer = 1.0;
   bool  tess = false;
   bool  light = true;
+  bool  lines = true;
 
   //variables
   glm::mat4x4 mProjMatrix, mModelMatrix, mViewMatrix;
@@ -104,6 +105,7 @@ namespace opengl
     m_program.addUniform("TessLevelOuter");
     m_program.addUniform("uNorm");
     m_program.addUniform("iLightsOn");
+    m_program.addUniform("uDrawWireFrame");
     m_program.disable();
 
     //VAO
@@ -142,8 +144,9 @@ namespace opengl
     glUniform1f(m_program.getLocation("fGeomParam"), geom_param);
     glUniform1f(m_program.getLocation("TessLevelInner"), tess_inner);
     glUniform1f(m_program.getLocation("TessLevelOuter"), tess_outer);
-    glUniform1i(m_program.getLocation("uNorm"), (tess == true ? 1 : 0));
-    glUniform1i(m_program.getLocation("iLightsOn"), (light == true ? 1 : 0));
+    glUniform1i(m_program.getLocation("uNorm"), tess);
+    glUniform1i(m_program.getLocation("iLightsOn"), light);
+    glUniform1i(m_program.getLocation("uDrawWireFrame"), lines);
     glBindVertexArray(m_iIndexVAO);
     glPatchParameteri(GL_PATCH_VERTICES, 3);
     glDrawArrays(GL_PATCHES, 0, iNVertices);
@@ -184,5 +187,9 @@ namespace opengl
 
   void toggle_light() {
     light = !light;
+  }
+
+  void toggle_lines() {
+    lines = !lines;
   }
 }

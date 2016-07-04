@@ -66,6 +66,11 @@ namespace opengl
   /// Function that activates/deactivates the lights in the geometry shader.
   ///
   void toggle_light();
+
+  ///
+  /// Function that activates/deactivates wireframe rendering.
+  ///
+  void toggle_lines();
 }
 
 #endif
