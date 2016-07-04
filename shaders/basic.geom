@@ -16,7 +16,7 @@ out vec3 gTriDistance;
 out vec4 vVertexColor;
 
 void main() {
-  vec4 ambient = vec4(0.05, 0.05, 0.05, 1.0);
+  vec4 ambient = vec4(0.025, 0.025, 0.025, 1.0);
   vec4 lightDir = normalize(vec4(1.0, 1.0, 0.5, 1.0));
   vec4 bLightColor = vec4(vec3(0.3), 1.0);
   float NdotL, NdotL2;
